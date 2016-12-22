@@ -22,6 +22,12 @@ void preOrder(Node *t);
 void postOrder(Node *t);
 
 Node* search(BST *T, int k);
+Node* minimum(Node *n);
+Node* maximum(Node *n);
+
+Node* successor(Node *n);
+Node* predecessor(Node *n);
+
 
 int main(int argc, char const *argv[])
 {
@@ -35,15 +41,37 @@ int main(int argc, char const *argv[])
 	insert(tree,60);
 	insert(tree,110);
 	insert(tree,70);
+	insert(tree,65);
 	insert(tree,180);
+	insert(tree,15);
 
 
 	traverse(tree, "inorder");
+	cout << endl;
 	traverse(tree, "preorder");
+	cout << endl;
 	traverse(tree, "postorder");
+	cout << endl;
 
 
 	cout << "Search Result : " << search(tree, 50)->key << endl;
+	cout << endl;
+
+
+	cout << "Minimum Key : " << minimum(tree->root)->key << endl;
+	cout << "Maximum Key : " << maximum(tree->root)->key << endl;
+	cout << endl;
+
+
+	cout << "Successor of 50 is " << successor( search(tree,50) )->key  << endl;
+	cout << "Successor of 70 is " << successor( search(tree,70) )->key  << endl;
+	cout << endl;
+
+
+	cout << "Predecessor of 50 is " << predecessor( search(tree,50) )->key  << endl;
+	cout << "Predecessor of 110 is " << predecessor( search(tree,110) )->key  << endl;
+	cout << endl;
+
 
 	return 0;
 }
@@ -168,4 +196,56 @@ Node* search(BST *T, int k)
 	}
 }
 
+Node* minimum(Node *n)
+{
+	while(n->left)n = n->left;
+	return n;
+}
+
+Node* maximum(Node *n)
+{
+	while(n->right)n = n->right;
+	return n;
+}
+
+/*
+	NOTE : Can return NULL
+	Successor is either:
+		1. Minimum value in right sub tree if right sub tree exists
+		2. Lowest node whose left child is an ancestor of 'n'
+			(First node which is a right parent from n upwards)
+*/
+Node* successor(Node *n)
+{
+	if(n->right) return minimum(n->right);
+	
+	Node *p= n->parent;
+	while( p && n==p->right)
+	{
+		n = p;
+		p = p->parent;
+	}
+	return p;
+}
+
+
+/*
+	NOTE : Can return NULL
+	Predecessor is either:
+		1. Maximum value in left sub tree if left sub tree exists
+		2. Lowest node whose right child is an ancestor of 'n'
+			(First node which is a left parent from n upwards)
+*/
+Node* predecessor(Node *n)
+{
+	if(n->left) return maximum(n->left);
+	
+	Node *p= n->parent;
+	while( p && n==p->left)
+	{
+		n = p;
+		p = p->parent;
+	}
+	return p;
+}
 
