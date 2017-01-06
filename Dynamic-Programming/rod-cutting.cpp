@@ -20,7 +20,7 @@ int main(int argc, char const *argv[])
 	vector<int> prices = {0,1,2,2,3,7,3,3,4,5,6};
 
 	// Initialize each optimal value to be 0
-	vector<int> optimal(11,0);
+	vector<int> optimal(11,0), cutSize(11);
 
 
 	int max;
@@ -28,23 +28,31 @@ int main(int argc, char const *argv[])
 	{
 		// Let the optimal of cut of size i be price[i] 
 		max = prices[i];
-
+		cutSize[i] = 0;
 		// Check if a better cut exists using previously calculated optimals
 		// NOTE : j is less than i
 		for (int j = 1; j < i; ++j)
 		{
 			if( max < prices[j] + optimal[i-j] )
+			{
 				max = prices[j] + optimal[i-j];
+				cutSize[i] = j;
+			}
 		}
 		// Set optimal for this cut
 		optimal[i] = max;
 	}
 
 
-	// Print optimal profit for rod of size i
+	// Print optimal profit for rod of size i with cuts
 	for(int i=0; i <= 10; i++)
 	{
-		cout << i << " : " << optimal[i];
+		cout << i << " : ";
+		int j=i;
+		while(cutSize[j]!=0) { cout << cutSize[j] << "+"; j = j - cutSize[j];}
+		cout << j;
+		cout << "\t\t\t\tProfit:";
+		cout << optimal[i];
 		cout << endl;			
 	}
 

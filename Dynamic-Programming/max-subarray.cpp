@@ -44,7 +44,6 @@ int main(int argc, char const *argv[])
 
 	for (int i = 0; i < N; ++i)
 	{
-
 		/*
 			Update current sum.
 			If current sum ends up being negative make current sum zero

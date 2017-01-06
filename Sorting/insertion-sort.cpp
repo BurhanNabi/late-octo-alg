@@ -43,7 +43,7 @@ void print( vector<int> const  &v)
 }
 
 /*
-	Invariant : ar[0..i] is sorted after each iteration
+	Invariant : ar[0..i) is sorted after each iteration
 	Algorithm : insert 'curr' into already sorted subarray	
 */
 void insertionSort(vector<int> &ar)
